@@ -1,0 +1,268 @@
+{
+  "seeding": {
+    "path": "seeding",
+    "populate": [
+      {
+        "path": "species"
+      },
+      {
+        "path": "landLot"
+      },
+      {
+        "path": "manager",
+        "select": [
+          "username",
+          "fullName",
+          "lastName"
+        ]
+      },
+      {
+        "path": "leader",
+        "select": [
+          "username",
+          "fullName",
+          "lastName"
+        ]
+      },
+      {
+        "path": "worker",
+        "select": [
+          "username",
+          "fullName",
+          "lastName"
+        ]
+      }
+    ]
+  },
+  "planting": {
+    "path": "planting",
+    "populate": [
+      {
+        "path": "manager",
+        "select": [
+          "username",
+          "fullName",
+          "lastName"
+        ]
+      },
+      {
+        "path": "leader",
+        "select": [
+          "username",
+          "fullName",
+          "lastName"
+        ]
+      },
+      {
+        "path": "worker",
+        "select": [
+          "username",
+          "fullName",
+          "lastName"
+        ]
+      },
+      {
+        "path": "species"
+      },
+      {
+        "path": "landLot"
+      }
+    ]
+  },
+  "comment": {
+    "path": "comments",
+    "select": [
+      "fullName"
+    ],
+    "populate": {
+      "path": "createdBy",
+      "select": ["fullName"]
+    }
+  },
+  "createdBy": {
+    "path": "createdBy",
+    "select": [
+      "firstName",
+      "lastName",
+      "fullName"
+    ],
+    "populate": {
+      "path": "createdBy"
+    }
+  },
+  "packing": {
+    "path": "packing",
+    "populate": [
+      {
+        "path": "packing"
+      },
+      {
+        "path": "products",
+        "populate": [
+          {
+            "path": "scanBy",
+            "select": "fullName"
+          },
+          {
+            "path": "activeBy",
+            "select": "fullName"
+          },
+          {
+            "path": "createdBy",
+            "select": "fullName"
+          },
+          {
+            "path": "species"
+          }
+        ]
+      },
+      {
+        "path": "sampleImage.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      },
+      {
+        "path": "packingImage.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      }
+    ]
+  },
+  "preservation": {
+    "path": "preservation",
+    "populate": [
+      {
+        "path": "storageImage.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      }
+    ]
+  },
+  "cleaning": {
+    "path": "cleaning",
+    "populate": [
+      {
+        "path": "imageBefore.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      },
+      {
+        "path": "imageAfter.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      },
+      {
+        "path": "imageInProgress.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      }
+    ]
+  },
+  "preliminaryTreatment": {
+    "path": "preliminaryTreatment",
+    "populate": [
+      {
+        "path": "imageBefore.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      },
+      {
+        "path": "imageAfter.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      },
+      {
+        "path": "imageInProgress.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      }
+    ]
+  },
+  "history" : {
+    "path": "history",
+    "populate": [
+      {
+        "path": "productPlan",
+        "populate": [
+          {
+            "path": "createdBy",
+            "select": [
+              "username",
+              "firstName",
+              "lastName",
+              "fullName"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "harvesting": {
+    "path": "harvesting",
+    "populate": [
+      {
+        "path": "imageBefore.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      },
+      {
+        "path": "imageAfter.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      },
+      {
+        "path": "imageInProgress.takenBy",
+        "select": [
+          "username",
+          "firstName",
+          "lastName",
+          "fullName"
+        ]
+      }
+    ]
+  }
+}

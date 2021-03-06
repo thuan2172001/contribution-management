@@ -1,0 +1,15 @@
+_id,level,scopes,name,parent,status,managementUnit
+roles0000000000000000001,,,Super Admin,,,managementunits000000001
+roles0000000000000000002,,,Tổng giám đốc,,,managementunits000000002
+roles0000000000000000003,,,Trưởng phòng kế hoạch,,,managementunits000000003
+roles0000000000000000004,,,Nhân viên phòng kế hoạch,,,managementunits000000003
+roles0000000000000000005,,,Trưởng phòng Kỹ thuật,,,managementunits000000004
+roles0000000000000000006,,,Nhân viên kỹ thuật,,,managementunits000000004
+roles0000000000000000007,,,Tổ trưởng,,,managementunits000000005
+roles0000000000000000008,,,Công nhân/nông dân,,,managementunits000000005
+roles0000000000000000009,,,Chủ đơn vị bán hàng,,,managementunits000000006
+roles0000000000000000010,,,Nhân viên bán hàng,,,managementunits000000006
+roles0000000000000000011,,,Nhân viên kho vận,,,managementunits000000006
+roles0000000000000000012,,,Chủ đơn vị vận chuyển,,,managementunits000000007
+roles0000000000000000013,,,Nhân viên vận chuyển,,,managementunits000000007
+roles0000000000000000014,,,Khách hàng,,,managementunits000000008
