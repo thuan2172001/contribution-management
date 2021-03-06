@@ -21,13 +21,16 @@ export const generateStudent = async () => {
       });
 
       if (!checkDataExits) {
-        const data = new DataSchema({
+        const _data = {
           fullName: fields[header.indexOf('fullname')],
           email: fields[header.indexOf('email')],
           gender: fields[header.indexOf('gender')],
           birthDay: fields[header.indexOf('birthday')],
           code: fields[header.indexOf('code')]
-        });
+        };
+        console.log(_data);
+        const data = new DataSchema(_data);
+
         await data.save();
       }
     });

@@ -1,17 +1,11 @@
-FROM node:14-alpine
+FROM node:latest
 
-RUN apk add --no-cache --virtual .build-deps make gcc g++ python
+WORKDIR /app
 
-RUN apk add --no-cache bash
-
-WORKDIR /usr/app
 RUN npm install -g nodemon
 
 COPY package*.json ./
+
 RUN npm install
 
 COPY . .
-
-EXPOSE 2999 3000
-
-CMD [ "npm", "run", "start:prod" ]

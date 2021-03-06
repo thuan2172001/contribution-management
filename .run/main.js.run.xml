@@ -1,0 +1,43 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="main.js" type="NodeJSConfigurationType" path-to-node="docker://contribution-management/server:dev/node" nameIsGenerated="true" path-to-js-file="app/main.js" working-dir="$PROJECT_DIR$">
+    <envs>
+      <env name="PROJECT_NAME" value="ContributionManagement" />
+      <env name="SERVER_SECRET" value="nguyenhopquang|lkvxckviwekvxkcvjiweslkfj3rskldfjlKKJcvweknsdvixcjvsd" />
+      <env name="SERVER_PORT" value="2999" />
+      <env name="MONGODB_URL" value="mongo" />
+      <env name="MONGODB_USER" value="root" />
+      <env name="MONGODB_PASS" value="root" />
+      <env name="MONGODB_DATABASE" value="cm" />
+      <env name="API_PREFIX" value="/api" />
+      <env name="MONGODB_EXPRESS_PORT" value="4545" />
+      <env name="MONGODB_PORT" value="22222" />
+      <env name="CHECK_AUTH" value="false" />
+      <env name="CHECK_CHANGE_PASSWORD" value="false" />
+      <env name="CHECK_REQUEST_SIGNATURE" value="false" />
+      <env name="CHECK_BLOCKCHAIN" value="false" />
+      <env name="BLOCKCHAIN_URL" value="http://13.212.72.170:8000" />
+      <env name="UPLOAD_PATH" value="uploads/" />
+      <env name="SEED_DATA" value="true" />
+      <env name="URL_PRODUCTION" value="http://13.251.125.228:9001/" />
+      <env name="PREFIX_BLOCKCHAIN_ID" value="1.0" />
+      <env name="VERSION" value="1.0" />
+      <env name="MEMORY_LIMIT" value="1000M" />
+      <env name="MEMORY_RESERVATIONS" value="128M" />
+      <env name="TOTAL_QR" value="71" />
+      <env name="NUMBER_QR_PER_PAGE" value="35" />
+      <env name="CONCURRENT" value="5" />
+    </envs>
+    <EXTENSION ID="com.jetbrains.nodejs.remote.docker.NodeJSDockerRunConfigurationExtension">
+      <option name="runCliOptions" value="" />
+      <option name="volumeBindings">
+        <list>
+          <DockerVolumeBindingImpl>
+            <option name="containerPath" value="/appp" />
+            <option name="hostPath" value="$PROJECT_DIR$" />
+          </DockerVolumeBindingImpl>
+        </list>
+      </option>
+    </EXTENSION>
+    <method v="2" />
+  </configuration>
+</component>
