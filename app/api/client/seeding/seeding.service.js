@@ -79,6 +79,7 @@ const create = async (args = {}) => {
     throw new Error('CREATE.ERROR.BAD_REQUEST');
   }
 };
+
 const removeById = async (args = {}) => {
   const validateArgs = (arg = {}) => {
     const { levelId } = arg;
@@ -105,6 +106,7 @@ const removeById = async (args = {}) => {
     throw new Error(err.message);
   }
 };
+
 const update = async (args = {}) => {
   const { levelId } = args;
   const validateArgs = async (arg = {}) => {

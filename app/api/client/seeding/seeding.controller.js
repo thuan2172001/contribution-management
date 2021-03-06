@@ -51,6 +51,7 @@ api.put('/seeding/:seedingId', CheckAuth, async (req, res) => {
     return CommonError(req, err, res);
   }
 });
+
 api.delete('/seeding/:seedingId', CheckAuth, async (req, res) => {
   try {
     const args = req.params;

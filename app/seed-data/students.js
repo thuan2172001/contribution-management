@@ -26,9 +26,8 @@ export const generateStudent = async () => {
           email: fields[header.indexOf('email')],
           gender: fields[header.indexOf('gender')],
           birthDay: fields[header.indexOf('birthday')],
-          code: fields[header.indexOf('code')]
+          code: fields[header.indexOf('code')],
         };
-        console.log(_data);
         const data = new DataSchema(_data);
 
         await data.save();
