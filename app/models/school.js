@@ -24,6 +24,17 @@ const SchoolSchema = new Schema(
     location: {
       type: String,
     },
+    image: {
+      path: {
+        type: String,
+      },
+      thumbnail: {
+        type: String,
+      },
+      hash: {
+        type: String,
+      },
+    },
   },
   { timestamps: true },
 );

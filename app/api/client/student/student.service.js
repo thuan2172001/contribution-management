@@ -4,7 +4,7 @@ import { getSearchOption, mergeSearchObjToPopulate, poppulate } from '../../libr
 import { validateInputString } from '../../../utils/validate-utils';
 import StoreLevel from '../../../models/store_level';
 import Agency from '../../../models/agency';
-import { saveImageAndGetHashList } from '../../../utils/image-utils';
+import {saveImageAndGetHash, saveImageAndGetHashList} from '../../../utils/image-utils';
 import UserAction from '../user/user.service';
 import LandLot from "../../../models/land_lot";
 import {compareWithBlockchain} from "../../../services/blockchain/hashProcess";
@@ -77,7 +77,12 @@ export const create = async (args = {}) => {
     gender,
     birthDay,
     code,
+    image,
   } = await validateArgs(args);
+  let savedImage = {};
+  if (image) {
+    savedImage = await saveImageAndGetHash(image);
+  }
 
   try {
     const newData = new Student({
@@ -87,6 +92,7 @@ export const create = async (args = {}) => {
       gender,
       birthDay,
       code,
+      image: savedImage,
     });
 
     const data = await newData.save();
@@ -100,6 +106,7 @@ export const update = async (args = {}) => {
   const data = await Student.findOne({ _id: args.studentId });
   if (!data) throw new Error('STUDENT.ERROR.NOT_FOUND');
 
+
   const listFiled = [
     'fullName',
     'school',
@@ -112,6 +119,10 @@ export const update = async (args = {}) => {
   listFiled.forEach((fieldName) => {
     data[fieldName] = args[fieldName] ?? data[fieldName];
   });
+
+  if (args.image) {
+    data.image = await saveImageAndGetHash(args.image);
+  }
 
   try {
     const newData = await data.save();

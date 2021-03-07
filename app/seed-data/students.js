@@ -31,6 +31,7 @@ export const generateStudent = async () => {
           birthDay: fields[header.indexOf('birthday')],
           code: fields[header.indexOf('code')],
           school,
+          image: fields[header.indexOf('image')],
         };
         const data = new DataSchema(_data);
 
