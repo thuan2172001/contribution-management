@@ -11,6 +11,7 @@ const SchoolSchema = new Schema(
       required: true,
       unique: true,
     },
+
     schoolName: {
       type: String,
       required: true,

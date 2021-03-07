@@ -8,6 +8,7 @@ import Seeding from '../models/seeding';
 import Planting from '../models/planting';
 import Packing from '../models/packing';
 import Role from '../models/role';
+import School from '../models/school';
 import Customer from '../models/customer';
 import { cleanField } from './scanDataFile';
 
@@ -200,6 +201,24 @@ export const findCustomer = async (customerId, customerContent, header) => {
 
       return Customer.findOne({
         username: field[header.indexOf('username')],
+      });
+    }
+
+    return false;
+  });
+
+  result = result.filter(Boolean);
+
+  return result;
+};
+
+export const findSchool = async (schoolId, content, header) => {
+  let result = await Promise.map(content, async (line) => {
+    if (line.includes(schoolId)) {
+      const field = cleanField(line.split(','));
+
+      return School.findOne({
+        code: field[header.indexOf('code')],
       });
     }
 

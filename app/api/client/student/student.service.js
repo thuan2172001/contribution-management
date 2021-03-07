@@ -20,8 +20,12 @@ export const getAll = async (args = {}) => {
   const defaultSortField = 'updatedAt';
   const searchModel = {
     fullName: 'string',
+    code: 'string',
+    birthDay: 'date-time',
+    school: { _id: 'objectId' },
   };
   const poppulateObj = {
+    school: { __from: 'schools' },
   };
   const validSearchOption = getSearchOption(args, searchModel);
   mergeSearchObjToPopulate(validSearchOption, poppulateObj, searchModel, args);
@@ -51,6 +55,7 @@ export const create = async (args = {}) => {
       fullName,
       email,
       gender,
+      school,
       // eslint-disable-next-line no-unused-vars
       birthDay,
       // eslint-disable-next-line no-unused-vars
@@ -67,6 +72,7 @@ export const create = async (args = {}) => {
 
   const {
     fullName,
+      school,
     email,
     gender,
     birthDay,
@@ -76,6 +82,7 @@ export const create = async (args = {}) => {
   try {
     const newData = new Student({
       fullName,
+      school,
       email,
       gender,
       birthDay,
@@ -95,6 +102,7 @@ export const update = async (args = {}) => {
 
   const listFiled = [
     'fullName',
+    'school',
     'email',
     'gender',
     'birthDay',
@@ -116,7 +124,7 @@ export const update = async (args = {}) => {
 export const getById = async (args = {}) => {
     const { studentId } = args;
     try {
-      const result = await Student.findOne({ _id: studentId });
+      const result = await Student.findOne({ _id: studentId }).populate(['school']);
       return result;
     } catch (e) {
       throw new Error(e.message);
