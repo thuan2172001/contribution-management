@@ -1,5 +1,5 @@
 import { parsePaginationOption, SumOption } from '../../library/search';
-import Student from '../../../models/student';
+import School from '../../../models/school';
 import { getSearchOption, mergeSearchObjToPopulate, poppulate } from '../../library/new-search';
 import { validateInputString } from '../../../utils/validate-utils';
 import StoreLevel from '../../../models/store_level';
@@ -14,7 +14,7 @@ import Seeding from "../../../models/seeding";
 const _ = require('lodash');
 
 // eslint-disable-next-line no-unused-vars
-const CODE_NOT_FOUND = 'STUDENT.ERROR.CODE_NOT_FOUND';
+const CODE_NOT_FOUND = 'SCHOOL.ERROR.CODE_NOT_FOUND';
 
 export const getAll = async (args = {}) => {
   const defaultSortField = 'updatedAt';
@@ -32,13 +32,13 @@ export const getAll = async (args = {}) => {
   const skipOptions = limit * (page - 1);
 
   const [pop] = poppulate(poppulateObj);
-  const query = await Student
+  const query = await School
     .aggregate([...pop, { $sort: sortOption }, { $skip: skipOptions }, { $limit: limit }])
     .collation({
       locale: 'vi',
       numericOrdering: true,
     });
-  const total = await Student.aggregate([...pop, SumOption]);
+  const total = await School.aggregate([...pop, SumOption]);
   return {
     data: query,
     paging: { page, limit, total: total.length === 0 ? 0 : total[0].n },
@@ -48,37 +48,32 @@ export const getAll = async (args = {}) => {
 export const create = async (args = {}) => {
   const validateArgs = async (arg = {}) => {
     const {
-      fullName,
+      schoolName,
       email,
-      gender,
-      // eslint-disable-next-line no-unused-vars
-      birthDay,
-      // eslint-disable-next-line no-unused-vars
-      code,
+      location,
+        code,
     } = arg;
 
-    if (validateInputString(fullName) || fullName > 80) throw new Error('CREATE.ERROR.AGENCY.NAME_INVALID');
+    if (validateInputString(schoolName) || schoolName > 80) throw new Error('CREATE.ERROR.AGENCY.NAME_INVALID');
     if (validateInputString(email)) throw new Error('CREATE.ERROR.AGENCY.EMAIL_INVALID');
-    if (validateInputString(gender)) throw new Error('CREATE.ERROR.AGENCY.GENDER_INVALID');
+    if (validateInputString(location)) throw new Error('CREATE.ERROR.AGENCY.GENDER_INVALID');
     return {
       ...args,
     };
   };
 
   const {
-    fullName,
+    schoolName,
     email,
-    gender,
-    birthDay,
+    location,
     code,
   } = await validateArgs(args);
 
   try {
-    const newData = new Student({
-      fullName,
+    const newData = new School({
+      schoolName,
       email,
-      gender,
-      birthDay,
+      location,
       code,
     });
 
@@ -90,14 +85,13 @@ export const create = async (args = {}) => {
 };
 
 export const update = async (args = {}) => {
-  const data = await Student.findOne({ _id: args.studentId });
-  if (!data) throw new Error('STUDENT.ERROR.NOT_FOUND');
+  const data = await School.findOne({ _id: args.schoolId });
+  if (!data) throw new Error('SCHOOL.ERROR.NOT_FOUND');
 
   const listFiled = [
-    'fullName',
+    'schoolName',
     'email',
-    'gender',
-    'birthDay',
+    'location',
     'code',
   ];
 
@@ -114,9 +108,9 @@ export const update = async (args = {}) => {
 };
 
 export const getById = async (args = {}) => {
-    const { studentId } = args;
+    const { schoolId } = args;
     try {
-      const result = await Student.findOne({ _id: studentId });
+      const result = await School.findOne({ _id: schoolId });
       return result;
     } catch (e) {
       throw new Error(e.message);
@@ -124,10 +118,10 @@ export const getById = async (args = {}) => {
 };
 
 export const removeById = async (args = {}) => {
-  const data = await Student.findOne({ _id: args.studentId });
-  if (!data) throw new Error('STUDENT.ERROR.NOT_FOUND');
+  const data = await School.findOne({ _id: args.schoolId });
+  if (!data) throw new Error('SCHOOL.ERROR.NOT_FOUND');
   try {
-    if (data) return await Student.findOneAndDelete({ _id: data._id });
+    if (data) return await School.findOneAndDelete({ _id: data._id });
     else throw new Error('DELETE.ERROR.CANT_DELETE_STORE_LEVEL');
   } catch (err) {
     throw new Error(err.message);
@@ -137,7 +131,7 @@ export const removeById = async (args = {}) => {
 export const remove = async (args = {}) => {
   const validateArgs = (arg = {}) => {
 
-    if (!Array.isArray(arg) && arg.length === 0) throw new Error('DELETE.ERROR.STUDENT.STUDENT_INVALID');
+    if (!Array.isArray(arg) && arg.length === 0) throw new Error('DELETE.ERROR.SCHOOL.SCHOOL_INVALID');
 
     return arg;
   };
@@ -147,9 +141,9 @@ export const remove = async (args = {}) => {
   try {
     let result = await Promise.all(listRemoveData.map(async (dataId) => {
 
-      if (!await Student.findOneAndDelete({
+      if (!await School.findOneAndDelete({
         _id: dataId,
-      })) return { message: 'DELETE.ERROR.STUDENT.CANNOT_DELETE', additional: dataId };
+      })) return { message: 'DELETE.ERROR.SCHOOL.CANNOT_DELETE', additional: dataId };
       return null;
     }));
     result = result.filter((r) => r != null);

@@ -2,6 +2,12 @@ import {SEED_DATA, VERSION} from '../environment';
 import { generateCounter } from './counter';
 import SystemInformation from '../models/system_information';
 import {generateStudent} from "./students";
+import {generateAgency} from "./agency";
+import {createAgencyForUser, createDefaultUser} from "./user_default";
+import {generateCustomer} from "./customers";
+import {generateManagementUnitForUser} from "./management_unit";
+import {generateRole} from "./role";
+import {generateSchool} from "./schools";
 const { hashElement } = require('folder-hash');
 
 export const seed = async () => {
@@ -22,5 +28,10 @@ export const seed = async () => {
 
 const _seed = async () => {
   await generateCounter();
+  await generateManagementUnitForUser();
+  await generateCustomer();
+  await generateRole();
+  await createDefaultUser();
   await generateStudent();
+  await generateSchool();
 }

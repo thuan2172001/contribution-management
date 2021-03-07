@@ -8,13 +8,13 @@ import {
 } from '../../../utils/response-utils';
 import {
   getAll, create, update, removeById, getById, remove,
-} from './student.service';
+} from './school.service';
 
 // eslint-disable-next-line import/named
 
 const api = express.Router();
 
-api.get('/student', CheckAuth, async (req, res) => {
+api.get('/school', CheckAuth, async (req, res) => {
   try {
     const args = req.query;
     const results = await getAll(args);
@@ -24,7 +24,7 @@ api.get('/student', CheckAuth, async (req, res) => {
   }
 });
 
-api.get('/student/:studentId', CheckAuth, async (req, res) => {
+api.get('/school/:schoolId', CheckAuth, async (req, res) => {
   try {
     const args = req.params;
     const result = await getById(args);
@@ -34,7 +34,7 @@ api.get('/student/:studentId', CheckAuth, async (req, res) => {
   }
 });
 
-api.post('/student', CheckAuth, async (req, res) => {
+api.post('/school', CheckAuth, async (req, res) => {
   try {
     const args = req.body;
     const results = await create(args);
@@ -44,14 +44,14 @@ api.post('/student', CheckAuth, async (req, res) => {
   }
 });
 
-api.put('/student/:studentId', CheckAuth, async (req, res) => {
+api.put('/school/:schoolId', CheckAuth, async (req, res) => {
   try {
-    const { studentId } = req.params;
+    const { schoolId } = req.params;
 
     const args = req.body;
 
     const result = await update({
-      studentId, ...args,
+      schoolId, ...args,
     });
 
     return res.json(success(result));
@@ -60,7 +60,7 @@ api.put('/student/:studentId', CheckAuth, async (req, res) => {
   }
 });
 
-api.delete('/student/bulk', CheckAuth, async (req, res) => {
+api.delete('/school/bulk', CheckAuth, async (req, res) => {
   try {
     const result = await remove(req.body);
 
@@ -70,7 +70,7 @@ api.delete('/student/bulk', CheckAuth, async (req, res) => {
   }
 });
 
-api.delete('/student/:studentId', CheckAuth, async (req, res) => {
+api.delete('/school/:schoolId', CheckAuth, async (req, res) => {
   try {
     const args = req.params;
     const result = await removeById({ ...args });
