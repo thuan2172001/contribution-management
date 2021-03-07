@@ -31,6 +31,7 @@ export const generatePacking = async () => {
         weight: field[header.indexOf('weight')],
         species: species[0],
       });
+
       if (!checkPackingExits) {
         const packing = new Packing({
           weight: field[header.indexOf('weight')],

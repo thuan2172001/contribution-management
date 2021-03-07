@@ -32,6 +32,7 @@ const _seed = async () => {
   await generateCustomer();
   await generateRole();
   await createDefaultUser();
-  await generateStudent();
   await generateSchool();
+  await generateStudent();
+
 }

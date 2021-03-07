@@ -1,7 +1,6 @@
-_id,schoolName,email,location,code
-schools000000000000001,??i h?c Greenwich,greenwich@gmail.com,H� N?i,1
-schools000000000000002,??i h?c Greenwich,greenwich@gmail.com,H� N?i,2
-schools000000000000003,??i h?c Greenwich,greenwich@gmail.com,H� N?i,3
-schools000000000000004,??i h?c Greenwich,greenwich@gmail.com,H� N?i,4
-schools000000000000005,??i h?c Greenwich,greenwich@gmail.com,H� N?i,5
-schools000000000000006,??i h?c Greenwich,greenwich@gmail.com,H� N?i,6
+schoolName,email,location,code
+Đại học Nông nghiệp,nn@gmail.com,Hà nội,1
+Đại học Công nghệ,cn@gmail.com,Hà nội,2
+Đại học  Greenwich,greenwich@gmail.com,Hà nội,3
+Đại học Kinh tế,kt@gmail.com,Hà nội,4
+Đại học Ngoại thương,nt@gmail.com,Hà nội,5

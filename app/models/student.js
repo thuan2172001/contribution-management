@@ -1,33 +1,38 @@
-import {getNextSequence} from '../api/library/getNextCounter';
+import { getNextSequence } from '../api/library/getNextCounter';
 
 const mongoose = require('mongoose');
 
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 const StudentSchema = new Schema(
-    {
-        code: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-        fullName: {
-            type: String,
-            required: true,
-            maxlength: 254,
-        },
-        email: {
-            type: String,
-            maxlength: 254,
-        },
-        gender: {
-            type: String, // 0 : female, 1: male
-        },
-        birthDay: {
-            type: Date,
-        },
+  {
+    code: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    {timestamps: true},
+    school: {
+      type: Schema.Types.ObjectId,
+      ref: 'School',
+      required: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+      maxlength: 254,
+    },
+    email: {
+      type: String,
+      maxlength: 254,
+    },
+    gender: {
+      type: String, // 0 : female, 1: male
+    },
+    birthDay: {
+      type: Date,
+    },
+  },
+  { timestamps: true },
 );
 
 // StudentSchema.pre('validate', async function () {

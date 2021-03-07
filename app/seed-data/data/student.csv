@@ -1,7 +1,6 @@
-_id,fullname,email,gender,birthday,code
-students000000000000001,Nguy?n V?n A,nguyenvana@gmail.com,0,01/01/2001,1
-students000000000000002,Nguy?n V?n A,nguyenvana@gmail.com,0,01/01/2002,2
-students000000000000003,Nguy?n V?n A,nguyenvana@gmail.com,0,01/01/2003,3
-students000000000000004,Nguy?n V?n A,nguyenvana@gmail.com,0,01/01/2004,4
-students000000000000005,Nguy?n V?n A,nguyenvana@gmail.com,0,01/01/2005,5
-students000000000000006,Nguy?n V?n A,nguyenvana@gmail.com,0,01/01/2006,6
+fullname,email,gender,birthday,code,school
+Nguy?n V?n A,nguyenvana@gmail.com,0,1/1/2001,1,1
+Nguy?n V?n A,nguyenvana@gmail.com,0,1/1/2002,2,2
+Nguy?n V?n A,nguyenvana@gmail.com,0,1/1/2003,3,3
+Nguy?n V?n A,nguyenvana@gmail.com,0,1/1/2004,4,4
+Nguy?n V?n A,nguyenvana@gmail.com,0,1/1/2005,5,5
