@@ -28,7 +28,7 @@ const saveImageAndGetHash = async (image) => {
       const imageExtension = checkSpecialImage ? 'jpg' : 'png';
       return {
         path,
-        uploaded: 'true',
+        uploaded: true,
         thumbnail: `uploads/${hashOld}-300x300.${imageExtension}`,
         hash: hashOld,
         location: {

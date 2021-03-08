@@ -10,6 +10,7 @@ import LandLot from "../../../models/land_lot";
 import {compareWithBlockchain} from "../../../services/blockchain/hashProcess";
 import Planting from "../../../models/planting";
 import Seeding from "../../../models/seeding";
+import {saveFileAndGetHash} from "../../../utils/upload-file-utils";
 
 const _ = require('lodash');
 
@@ -60,6 +61,7 @@ export const create = async (args = {}) => {
       birthDay,
       // eslint-disable-next-line no-unused-vars
       code,
+        file,
     } = arg;
 
     if (validateInputString(fullName) || fullName > 80) throw new Error('CREATE.ERROR.AGENCY.NAME_INVALID');
@@ -78,10 +80,16 @@ export const create = async (args = {}) => {
     birthDay,
     code,
     image,
+    file,
   } = await validateArgs(args);
-  let savedImage = {};
+  let savedImage = null;
   if (image) {
     savedImage = await saveImageAndGetHash(image);
+  }
+
+  let saveFile = null;
+  if (file) {
+    saveFile = await saveFileAndGetHash(file);
   }
 
   try {
@@ -93,6 +101,7 @@ export const create = async (args = {}) => {
       birthDay,
       code,
       image: savedImage,
+      file: saveFile,
     });
 
     const data = await newData.save();
@@ -122,6 +131,10 @@ export const update = async (args = {}) => {
 
   if (args.image) {
     data.image = await saveImageAndGetHash(args.image);
+  }
+
+  if (args.file) {
+    data.file = await saveFileAndGetHash(args.file);
   }
 
   try {

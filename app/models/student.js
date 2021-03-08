@@ -42,6 +42,17 @@ const StudentSchema = new Schema(
         type: String,
       },
     },
+    file: {
+      path: {
+        type: String,
+      },
+      thumbnail: {
+        type: String,
+      },
+      hash: {
+        type: String,
+      },
+    },
   },
   { timestamps: true },
 );
