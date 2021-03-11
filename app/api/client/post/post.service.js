@@ -1,5 +1,5 @@
 import { parsePaginationOption, SumOption } from '../../library/search';
-import Student from '../../../models/student';
+import Post from '../../../models/post';
 import { getSearchOption, mergeSearchObjToPopulate, poppulate } from '../../library/new-search';
 import { validateInputString } from '../../../utils/validate-utils';
 import StoreLevel from '../../../models/store_level';
@@ -15,15 +15,16 @@ import {saveFileAndGetHash, saveFileAndGetHashList} from "../../../utils/upload-
 const _ = require('lodash');
 
 // eslint-disable-next-line no-unused-vars
-const CODE_NOT_FOUND = 'STUDENT.ERROR.CODE_NOT_FOUND';
+const CODE_NOT_FOUND = 'POST.ERROR.CODE_NOT_FOUND';
 
 export const getAll = async (args = {}) => {
   const defaultSortField = 'updatedAt';
   const searchModel = {
-    fullName: 'string',
+    faculty: 'string',
+    title: 'string',
     code: 'string',
-    birthDay: 'date-time',
-    school: { _id: 'objectId' },
+    date_upload: 'date-time',
+    status: 'date-time',
   };
   const poppulateObj = {
     school: { __from: 'schools' },
@@ -37,13 +38,13 @@ export const getAll = async (args = {}) => {
   const skipOptions = limit * (page - 1);
 
   const [pop] = poppulate(poppulateObj);
-  const query = await Student
+  const query = await Post
     .aggregate([...pop, { $sort: sortOption }, { $skip: skipOptions }, { $limit: limit }])
     .collation({
       locale: 'vi',
       numericOrdering: true,
     });
-  const total = await Student.aggregate([...pop, SumOption]);
+  const total = await Post.aggregate([...pop, SumOption]);
   return {
     data: query,
     paging: { page, limit, total: total.length === 0 ? 0 : total[0].n },
@@ -53,38 +54,38 @@ export const getAll = async (args = {}) => {
 export const create = async (args = {}) => {
   const validateArgs = async (arg = {}) => {
     const {
-      fullName,
-      email,
-      gender,
-      school,
-      // eslint-disable-next-line no-unused-vars
-      birthDay,
-      // eslint-disable-next-line no-unused-vars
+      faculty,
+      title,
+      name,
+      date_upload,
       code,
+      categories,
+      status,
+      file,
     } = arg;
 
-    if (validateInputString(fullName)) throw new Error('CREATE.ERROR.AGENCY.NAME_INVALID');
-    if (validateInputString(email)) throw new Error('CREATE.ERROR.AGENCY.EMAIL_INVALID');
-    if (validateInputString(gender)) throw new Error('CREATE.ERROR.AGENCY.GENDER_INVALID');
+    if (validateInputString(faculty)) throw new Error('CREATE.ERROR.AGENCY.NAME_INVALID');
+    if (validateInputString(title)) throw new Error('CREATE.ERROR.AGENCY.EMAIL_INVALID');
+    if (validateInputString(name)) throw new Error('CREATE.ERROR.AGENCY.GENDER_INVALID');
     return {
       ...args,
     };
   };
 
   const {
-    fullName,
-      school,
-    email,
-    gender,
-    birthDay,
+    faculty,
+    title,
+    name,
+    date_upload,
     code,
-    image,
+    categories,
+    status,
     file,
   } = await validateArgs(args);
-  let savedImage = null;
-  if (image) {
-    savedImage = await saveImageAndGetHash(image);
-  }
+  // let savedImage = null;
+  // if (image) {
+  //   savedImage = await saveImageAndGetHash(image);
+  // }
 
   let saveFile = null;
   if (file) {
@@ -92,14 +93,14 @@ export const create = async (args = {}) => {
   }
 
   try {
-    const newData = new Student({
-      fullName,
-      school,
-      email,
-      gender,
-      birthDay,
+    const newData = new Post({
+      faculty,
+      title,
+      name,
+      date_upload,
       code,
-      image: savedImage,
+      categories,
+      status,
       file: saveFile,
     });
 
@@ -111,26 +112,28 @@ export const create = async (args = {}) => {
 };
 
 export const update = async (args = {}) => {
-  const data = await Student.findOne({ _id: args.studentId });
-  if (!data) throw new Error('STUDENT.ERROR.NOT_FOUND');
+  const data = await Post.findOne({ _id: args.postId });
+  if (!data) throw new Error('POST.ERROR.NOT_FOUND');
 
 
   const listFiled = [
-    'fullName',
-    'school',
-    'email',
-    'gender',
-    'birthDay',
+    'faculty',
+    'title',
+    'name',
+    'date_upload',
     'code',
+    'categories',
+    'status',
+    'file',
   ];
 
   listFiled.forEach((fieldName) => {
     data[fieldName] = args[fieldName] ?? data[fieldName];
   });
 
-  if (args.image) {
-    data.image = await saveImageAndGetHash(args.image);
-  }
+  // if (args.image) {
+  //   data.image = await saveImageAndGetHash(args.image);
+  // }
 
   if (args.file) {
     data.file = await saveFileAndGetHashList(args.file);
@@ -145,9 +148,9 @@ export const update = async (args = {}) => {
 };
  
 export const getById = async (args = {}) => {
-    const { studentId } = args;
+    const { postId } = args;
     try {
-      const result = await Student.findOne({ _id: studentId }).populate(['school']);
+      const result = await Post.findOne({ _id: postId });
       return result;
     } catch (e) {
       throw new Error(e.message);
@@ -155,10 +158,10 @@ export const getById = async (args = {}) => {
 };
 
 export const removeById = async (args = {}) => {
-  const data = await Student.findOne({ _id: args.studentId });
-  if (!data) throw new Error('STUDENT.ERROR.NOT_FOUND');
+  const data = await Post.findOne({ _id: args.postId });
+  if (!data) throw new Error('POST.ERROR.NOT_FOUND');
   try {
-    if (data) return await Student.findOneAndDelete({ _id: data._id });
+    if (data) return await Post.findOneAndDelete({ _id: data._id });
     else throw new Error('DELETE.ERROR.CANT_DELETE_STORE_LEVEL');
   } catch (err) {
     throw new Error(err.message);
@@ -168,7 +171,7 @@ export const removeById = async (args = {}) => {
 export const remove = async (args = {}) => {
   const validateArgs = (arg = {}) => {
 
-    if (!Array.isArray(arg) && arg.length === 0) throw new Error('DELETE.ERROR.STUDENT.STUDENT_INVALID');
+    if (!Array.isArray(arg) && arg.length === 0) throw new Error('DELETE.ERROR.POST.POST');
 
     return arg;
   };
@@ -178,9 +181,9 @@ export const remove = async (args = {}) => {
   try {
     let result = await Promise.all(listRemoveData.map(async (dataId) => {
 
-      if (!await Student.findOneAndDelete({
+      if (!await Post.findOneAndDelete({
         _id: dataId,
-      })) return { message: 'DELETE.ERROR.STUDENT.CANNOT_DELETE', additional: dataId };
+      })) return { message: 'DELETE.ERROR.POST.CANNOT_DELETE', additional: dataId };
       return null;
     }));
     result = result.filter((r) => r != null);
