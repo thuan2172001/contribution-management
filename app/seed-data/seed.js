@@ -8,6 +8,7 @@ import {generateCustomer} from "./customers";
 import {generateManagementUnitForUser} from "./management_unit";
 import {generateRole} from "./role";
 import {generateSchool} from "./schools";
+import {generatePost} from "./posts";
 const { hashElement } = require('folder-hash');
 
 export const seed = async () => {
@@ -32,6 +33,7 @@ const _seed = async () => {
   await generateCustomer();
   await generateRole();
   await createDefaultUser();
+  await generatePost();
   await generateSchool();
   await generateStudent();
 

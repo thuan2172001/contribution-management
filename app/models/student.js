@@ -31,6 +31,28 @@ const StudentSchema = new Schema(
     birthDay: {
       type: Date,
     },
+    image: {
+      path: {
+        type: String,
+      },
+      thumbnail: {
+        type: String,
+      },
+      hash: {
+        type: String,
+      },
+    },
+    file: {
+      path: {
+        type: String,
+      },
+      thumbnail: {
+        type: String,
+      },
+      hash: {
+        type: String,
+      },
+    },
   },
   { timestamps: true },
 );

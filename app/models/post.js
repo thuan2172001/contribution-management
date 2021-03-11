@@ -1,30 +1,43 @@
-import { getNextSequence } from '../api/library/getNextCounter';
-
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const SchoolSchema = new Schema(
+const PostSchema = new Schema(
   {
     code: {
       type: String,
       required: true,
       unique: true,
     },
-
-    schoolName: {
+    name: {
       type: String,
       required: true,
       maxlength: 254,
     },
-    email: {
+    faculty: {
       type: String,
+      required: true,
       maxlength: 254,
     },
-    location: {
+    title: {
       type: String,
+      required: true,
+      maxlength: 254,
     },
-    image: {
+    categories: {
+      type: String,
+      required: true,
+      maxlength: 254,
+    },
+    date_upload: {
+      type: Date,
+    },
+    status: {
+      type: String,
+      required: true,
+      maxlength: 254,
+    },
+    file: {
       path: {
         type: String,
       },
@@ -45,6 +58,6 @@ const SchoolSchema = new Schema(
 //     this.code = nextSeq;
 //   }
 // });
-const School = mongoose.model('School', SchoolSchema);
+const Post = mongoose.model('Post', PostSchema);
 
-module.exports = School;
+module.exports = Post;
