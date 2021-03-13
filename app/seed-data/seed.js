@@ -40,8 +40,10 @@ const _seed = async () => {
   await generateFaculty();
   await generateCategory();
   await generateAcademicYear();
-  await generatePost();
   await generateSchool();
   await generateStudent();
+  await generatePost();
+
+
 
 }

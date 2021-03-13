@@ -2,14 +2,7 @@ import { parsePaginationOption, SumOption } from '../../library/search';
 import Post from '../../../models/post';
 import { getSearchOption, mergeSearchObjToPopulate, poppulate } from '../../library/new-search';
 import { validateInputString } from '../../../utils/validate-utils';
-import StoreLevel from '../../../models/store_level';
-import Agency from '../../../models/agency';
 import {saveImageAndGetHash, saveImageAndGetHashList} from '../../../utils/image-utils';
-import UserAction from '../user/user.service';
-import LandLot from "../../../models/land_lot";
-import {compareWithBlockchain} from "../../../services/blockchain/hashProcess";
-import Planting from "../../../models/planting";
-import Seeding from "../../../models/seeding";
 import {saveFileAndGetHash, saveFileAndGetHashList} from "../../../utils/upload-file-utils";
 
 const _ = require('lodash');
@@ -23,6 +16,7 @@ export const getAll = async (args = {}) => {
     faculty: { _id: 'objectId' },
     category: { _id: 'objectId' },
     title: 'string',
+    student: {_id: 'objectId'},
     code: 'string',
     date_upload: 'date-time',
     status: 'date-time',
@@ -31,6 +25,7 @@ export const getAll = async (args = {}) => {
   const poppulateObj = {
     faculty: { __from: 'faculties' },
     category: {__from: 'categories'},
+    student: {__from: 'students'},
   };
   const validSearchOption = getSearchOption(args, searchModel);
   mergeSearchObjToPopulate(validSearchOption, poppulateObj, searchModel, args);
@@ -64,6 +59,7 @@ export const create = async (args = {}) => {
       code,
       category,
       status,
+        student,
     } = arg;
 
     if (validateInputString(title)) throw new Error('CREATE.ERROR.AGENCY.EMAIL_INVALID');
@@ -76,6 +72,7 @@ export const create = async (args = {}) => {
   const {
     faculty,
     title,
+      student,
     name,
     date_upload,
     code,
@@ -97,6 +94,7 @@ export const create = async (args = {}) => {
     const newData = new Post({
       faculty,
       title,
+      student,
       name,
       date_upload,
       code,
@@ -120,6 +118,7 @@ export const update = async (args = {}) => {
   const listFiled = [
     'faculty',
     'title',
+      'student',
     'name',
     'date_upload',
     'code',
@@ -151,7 +150,7 @@ export const getById = async (args = {}) => {
     const { postId } = args;
     try {
       const result = await Post.findOne({ _id: postId })
-          .populate(['faculty','category']);
+          .populate(['faculty','category','student']);
       return result;
     } catch (e) {
       throw new Error(e.message);
