@@ -1,6 +1,6 @@
-faculty,title,name,code,category,date_upload,status,file
-1,To Sweden,Trần Thừa,1,1,02/01/2021,pending,
-2,To Sweden,Trần Thừa,2,2,02/01/2022,pending,
-3,To Sweden,Trần Thừa,3,3,02/01/2023,pending,
-4,To Sweden,Trần Thừa,4,4,02/01/2024,pending,
-5,To Sweden,Trần Thừa,5,5,02/01/2025,pending,
+faculty,title,student,code,category,date_upload,status,file
+1,To Sweden,1,1,1,02/01/2021,pending,
+2,To Sweden,2,2,2,02/01/2022,pending,
+3,To Sweden,3,3,3,02/01/2023,pending,
+4,To Sweden,4,4,4,02/01/2024,pending,
+5,To Sweden,5,5,5,02/01/2025,pending,

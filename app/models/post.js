@@ -6,13 +6,13 @@ const PostSchema = new Schema(
   {
     code: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
     },
-    name: {
-      type: String,
+    student: {
+      type: Schema.Types.ObjectId,
+      ref: 'Student',
       required: true,
-      maxlength: 254,
     },
     faculty: {
       type: Schema.Types.ObjectId,
