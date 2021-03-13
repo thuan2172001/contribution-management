@@ -15,9 +15,9 @@ const PostSchema = new Schema(
       maxlength: 254,
     },
     faculty: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Faculty',
       required: true,
-      maxlength: 254,
     },
     title: {
       type: String,
@@ -36,6 +36,17 @@ const PostSchema = new Schema(
       type: String,
       required: true,
       maxlength: 254,
+    },
+    image: {
+      path: {
+        type: String,
+      },
+      thumbnail: {
+        type: String,
+      },
+      hash: {
+        type: String,
+      },
     },
     file: {
       path: {
