@@ -1,41 +1,32 @@
 import { getCSVFiles, getContentCSVFiles, cleanField } from './scanDataFile';
-import Post from '../models/post';
-import Faculty from '../models/faculty';
-import Category from '../models/category';
+import AcademicYear from '../models/academic_year';
 
 const Promise = require('bluebird');
 
-export const generatePost = async () => {
+export const generateAcademicYear = async () => {
   try {
-    const DataSchema = Post;
+    const DataSchema = AcademicYear;
     const generateNumber = await DataSchema.count();
 
     if (generateNumber > 0) return;
-    const fileData = await getCSVFiles('post');
+    const fileData = await getCSVFiles('academicyear');
 
     const { header, content } = await getContentCSVFiles(fileData[0]);
 
     await Promise.each(content, async (line) => {
       const fields = cleanField(line.split(','));
-      const facultyCode = fields[header.indexOf('faculty')];
-      const faculty = await Faculty.findOne({ code: facultyCode });
-      const categoryCode = fields[header.indexOf('category')];
-      const category = await Category.findOne({ code: categoryCode });
-
       const checkDataExits = await DataSchema.findOne({
         code: fields[header.indexOf('code')],
       });
 
       if (!checkDataExits) {
         const _data = {
-          faculty,
-          title: fields[header.indexOf('title')],
+          startDate: fields[header.indexOf('startDate')],
+          closureDate: fields[header.indexOf('closureDate')],
+          finalClosureDate: fields[header.indexOf('finalClosureDate')],
+          alertDays: fields[header.indexOf('alertDays')],
           name: fields[header.indexOf('name')],
-          date_upload: fields[header.indexOf('date_upload')],
           code: fields[header.indexOf('code')],
-          category,
-          status: fields[header.indexOf('status')],
-          file: fields[header.indexOf('file')],
         };
         const data = new DataSchema(_data);
 

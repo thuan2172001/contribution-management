@@ -24,20 +24,19 @@ const PostSchema = new Schema(
       required: true,
       maxlength: 254,
     },
-    categories: {
-      type: String,
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
       required: true,
-      maxlength: 254,
     },
     date_upload: {
       type: Date,
     },
     status: {
       type: String,
-      required: true,
       maxlength: 254,
     },
-    image: {
+    image: [{
       path: {
         type: String,
       },
@@ -47,7 +46,7 @@ const PostSchema = new Schema(
       hash: {
         type: String,
       },
-    },
+    }],
     file: {
       path: {
         type: String,

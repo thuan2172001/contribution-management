@@ -8,13 +8,13 @@ import {
 } from '../../../utils/response-utils';
 import {
   getAll, create, update, removeById, getById, remove,
-} from './post.service';
+} from './category.service';
 
 // eslint-disable-next-line import/named
 
 const api = express.Router();
 
-api.get('/post', CheckAuth, async (req, res) => {
+api.get('/category', CheckAuth, async (req, res) => {
   try {
     const args = req.query;
     const results = await getAll(args);
@@ -24,18 +24,17 @@ api.get('/post', CheckAuth, async (req, res) => {
   }
 });
 
-api.get('/post/:postId', CheckAuth, async (req, res) => {
+api.get('/category/:categoryId', CheckAuth, async (req, res) => {
   try {
     const args = req.params;
     const result = await getById(args);
-    console.log(result);
     return res.json(success(result));
   } catch (err) {
     return CommonError(req, err, res);
   }
 });
 
-api.post('/post', CheckAuth, async (req, res) => {
+api.post('/category', CheckAuth, async (req, res) => {
   try {
     const args = req.body;
     const results = await create(args);
@@ -45,14 +44,14 @@ api.post('/post', CheckAuth, async (req, res) => {
   }
 });
 
-api.put('/post/:postId', CheckAuth, async (req, res) => {
+api.put('/category/:categoryId', CheckAuth, async (req, res) => {
   try {
-    const { postId } = req.params;
+    const { categoryId } = req.params;
 
     const args = req.body;
 
     const result = await update({
-      postId, ...args,
+      categoryId, ...args,
     });
 
     return res.json(success(result));
@@ -61,7 +60,7 @@ api.put('/post/:postId', CheckAuth, async (req, res) => {
   }
 });
 
-api.delete('/post/bulk', CheckAuth, async (req, res) => {
+api.delete('/category/bulk', CheckAuth, async (req, res) => {
   try {
     const result = await remove(req.body);
 
@@ -71,7 +70,7 @@ api.delete('/post/bulk', CheckAuth, async (req, res) => {
   }
 });
 
-api.delete('/post/:postId', CheckAuth, async (req, res) => {
+api.delete('/category/:categoryId', CheckAuth, async (req, res) => {
   try {
     const args = req.params;
     const result = await removeById({ ...args });

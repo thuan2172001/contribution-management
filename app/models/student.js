@@ -42,7 +42,7 @@ const StudentSchema = new Schema(
         type: String,
       },
     },
-    file: {
+    file: [{
       path: {
         type: String,
       },
@@ -52,7 +52,7 @@ const StudentSchema = new Schema(
       hash: {
         type: String,
       },
-    },
+    }],
   },
   { timestamps: true },
 );

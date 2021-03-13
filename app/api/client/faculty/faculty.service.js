@@ -19,7 +19,7 @@ const CODE_NOT_FOUND = 'FACULTY.ERROR.CODE_NOT_FOUND';
 export const getAll = async (args = {}) => {
   const defaultSortField = 'updatedAt';
   const searchModel = {
-    fullName: 'string',
+    faculty: 'string',
   };
   const poppulateObj = {
   };
