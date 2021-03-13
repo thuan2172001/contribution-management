@@ -1,38 +1,29 @@
 import { getCSVFiles, getContentCSVFiles, cleanField } from './scanDataFile';
-import Post from '../models/post';
 import Faculty from '../models/faculty';
 
 const Promise = require('bluebird');
 
-export const generatePost = async () => {
+export const generateFaculty = async () => {
   try {
-    const DataSchema = Post;
+    const DataSchema = Faculty;
     const generateNumber = await DataSchema.count();
 
     if (generateNumber > 0) return;
-    const fileData = await getCSVFiles('post');
+    const fileData = await getCSVFiles('faculty');
 
     const { header, content } = await getContentCSVFiles(fileData[0]);
 
     await Promise.each(content, async (line) => {
       const fields = cleanField(line.split(','));
-      const facultyCode = fields[header.indexOf('faculty')];
-      const faculty = await Faculty.findOne({ code: facultyCode });
-      console.log(faculty);
       const checkDataExits = await DataSchema.findOne({
         code: fields[header.indexOf('code')],
       });
 
       if (!checkDataExits) {
         const _data = {
-          faculty,
-          title: fields[header.indexOf('title')],
-          name: fields[header.indexOf('name')],
-          date_upload: fields[header.indexOf('date_upload')],
+          faculty: fields[header.indexOf('faculty')],
+          coordinatorCode: fields[header.indexOf('coordinatorCode')],
           code: fields[header.indexOf('code')],
-          categories: fields[header.indexOf('categories')],
-          status: fields[header.indexOf('status')],
-          file: fields[header.indexOf('file')],
         };
         const data = new DataSchema(_data);
 
