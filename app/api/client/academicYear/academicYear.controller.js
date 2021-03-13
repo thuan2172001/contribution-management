@@ -8,13 +8,13 @@ import {
 } from '../../../utils/response-utils';
 import {
   getAll, create, update, removeById, getById, remove,
-} from './post.service';
+} from './academicYear.service';
 
 // eslint-disable-next-line import/named
 
 const api = express.Router();
 
-api.get('/post', CheckAuth, async (req, res) => {
+api.get('/academic-year', CheckAuth, async (req, res) => {
   try {
     const args = req.query;
     const results = await getAll(args);
@@ -24,18 +24,17 @@ api.get('/post', CheckAuth, async (req, res) => {
   }
 });
 
-api.get('/post/:postId', CheckAuth, async (req, res) => {
+api.get('/academic-year/:dataId', CheckAuth, async (req, res) => {
   try {
     const args = req.params;
     const result = await getById(args);
-    console.log(result);
     return res.json(success(result));
   } catch (err) {
     return CommonError(req, err, res);
   }
 });
 
-api.post('/post', CheckAuth, async (req, res) => {
+api.post('/academic-year', CheckAuth, async (req, res) => {
   try {
     const args = req.body;
     const results = await create(args);
@@ -45,14 +44,14 @@ api.post('/post', CheckAuth, async (req, res) => {
   }
 });
 
-api.put('/post/:postId', CheckAuth, async (req, res) => {
+api.put('/academic-year/:dataId', CheckAuth, async (req, res) => {
   try {
-    const { postId } = req.params;
+    const { dataId } = req.params;
 
     const args = req.body;
 
     const result = await update({
-      postId, ...args,
+      dataId, ...args,
     });
 
     return res.json(success(result));
@@ -61,7 +60,7 @@ api.put('/post/:postId', CheckAuth, async (req, res) => {
   }
 });
 
-api.delete('/post/bulk', CheckAuth, async (req, res) => {
+api.delete('/academic-year/bulk', CheckAuth, async (req, res) => {
   try {
     const result = await remove(req.body);
 
@@ -71,7 +70,7 @@ api.delete('/post/bulk', CheckAuth, async (req, res) => {
   }
 });
 
-api.delete('/post/:postId', CheckAuth, async (req, res) => {
+api.delete('/academic-year/:dataId', CheckAuth, async (req, res) => {
   try {
     const args = req.params;
     const result = await removeById({ ...args });

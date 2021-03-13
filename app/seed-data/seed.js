@@ -10,6 +10,9 @@ import {generateRole} from "./role";
 import {generateSchool} from "./schools";
 import {generatePost} from "./posts";
 import {generateFaculty} from "./faculties";
+import {generateCategory} from "./categories";
+import {generateAcademicYear} from "./academic_years";
+
 const { hashElement } = require('folder-hash');
 
 export const seed = async () => {
@@ -35,6 +38,8 @@ const _seed = async () => {
   await generateRole();
   await createDefaultUser();
   await generateFaculty();
+  await generateCategory();
+  await generateAcademicYear();
   await generatePost();
   await generateSchool();
   await generateStudent();
