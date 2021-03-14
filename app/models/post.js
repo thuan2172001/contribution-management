@@ -7,11 +7,15 @@ const PostSchema = new Schema(
     code: {
       type: String,
       required: false,
-      unique: true,
     },
     student: {
       type: Schema.Types.ObjectId,
       ref: 'Student',
+      required: true,
+    },
+    faculty: {
+      type: Schema.Types.ObjectId,
+      ref: 'Faculty',
       required: true,
     },
     title: {
@@ -26,10 +30,12 @@ const PostSchema = new Schema(
     },
     date_upload: {
       type: Date,
+      required: true,
     },
     status: {
       type: String,
       maxlength: 254,
+      required: true,
     },
     image: [{
       path: {

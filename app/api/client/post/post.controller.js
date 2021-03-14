@@ -38,8 +38,8 @@ api.get('/post/:postId', CheckAuth, async (req, res) => {
 api.post('/post', CheckAuth, async (req, res) => {
   try {
     const args = req.body;
-    const results = await create(args);
-    return res.json(success(results));
+    const result = await create({ ...args, userInfo: req.userInfo });
+    return res.json(success(result));
   } catch (err) {
     return CommonError(req, err, res);
   }
@@ -50,11 +50,7 @@ api.put('/post/:postId', CheckAuth, async (req, res) => {
     const { postId } = req.params;
 
     const args = req.body;
-
-    const result = await update({
-      postId, ...args,
-    });
-
+    const result = await update({ ...args, postId, userInfo: req.userInfo });
     return res.json(success(result));
   } catch (err) {
     return CommonError(req, err, res);
