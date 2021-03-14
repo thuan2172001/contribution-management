@@ -3,7 +3,7 @@ import { generateCounter } from './counter';
 import SystemInformation from '../models/system_information';
 import {generateStudent} from "./students";
 import {generateAgency} from "./agency";
-import {createAgencyForUser, createDefaultUser} from "./user_default";
+import {createAgencyForUser, createDefaultUser, createStudentForUser} from "./user_default";
 import {generateCustomer} from "./customers";
 import {generateManagementUnitForUser} from "./management_unit";
 import {generateRole} from "./role";
@@ -36,12 +36,13 @@ const _seed = async () => {
   await generateManagementUnitForUser();
   await generateCustomer();
   await generateRole();
-  await createDefaultUser();
   await generateFaculty();
   await generateCategory();
   await generateAcademicYear();
   await generateSchool();
   await generateStudent();
+  await createDefaultUser();
+  await createStudentForUser();
   await generatePost();
 
 

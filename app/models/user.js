@@ -85,6 +85,10 @@ const UserSchema = new Schema(
         maxlength: 255,
       },
     },
+    student: {
+      type: Schema.Types.ObjectId,
+      ref: 'Student',
+    },
     agency: {
       type: Schema.Types.ObjectId,
       ref: 'Agency',

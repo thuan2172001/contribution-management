@@ -16,6 +16,9 @@ const api = express.Router();
 
 api.get('/student', CheckAuth, async (req, res) => {
   try {
+    const { _id } = req.userInfo;
+    console.log(req.userInfo);
+    console.log(_id);
     const args = req.query;
     const results = await getAll(args);
     return res.json(success(results));

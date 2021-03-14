@@ -11,9 +11,9 @@ const StudentSchema = new Schema(
       required: true,
       unique: true,
     },
-    school: {
+    faculty: {
       type: Schema.Types.ObjectId,
-      ref: 'School',
+      ref: 'Faculty',
       required: true,
     },
     fullName: {

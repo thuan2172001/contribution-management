@@ -2,14 +2,7 @@ import { parsePaginationOption, SumOption } from '../../library/search';
 import Student from '../../../models/student';
 import { getSearchOption, mergeSearchObjToPopulate, poppulate } from '../../library/new-search';
 import { validateInputString } from '../../../utils/validate-utils';
-import StoreLevel from '../../../models/store_level';
-import Agency from '../../../models/agency';
 import {saveImageAndGetHash, saveImageAndGetHashList} from '../../../utils/image-utils';
-import UserAction from '../user/user.service';
-import LandLot from "../../../models/land_lot";
-import {compareWithBlockchain} from "../../../services/blockchain/hashProcess";
-import Planting from "../../../models/planting";
-import Seeding from "../../../models/seeding";
 import {saveFileAndGetHash, saveFileAndGetHashList} from "../../../utils/upload-file-utils";
 
 const _ = require('lodash');
@@ -23,10 +16,10 @@ export const getAll = async (args = {}) => {
     fullName: 'string',
     code: 'string',
     birthDay: 'date-time',
-    school: { _id: 'objectId' },
+    faculty: { _id: 'objectId' },
   };
   const poppulateObj = {
-    school: { __from: 'schools' },
+    faculty: { __from: 'faculties' },
   };
   const validSearchOption = getSearchOption(args, searchModel);
   mergeSearchObjToPopulate(validSearchOption, poppulateObj, searchModel, args);
@@ -56,7 +49,7 @@ export const create = async (args = {}) => {
       fullName,
       email,
       gender,
-      school,
+      faculty,
       // eslint-disable-next-line no-unused-vars
       birthDay,
       // eslint-disable-next-line no-unused-vars
@@ -73,7 +66,7 @@ export const create = async (args = {}) => {
 
   const {
     fullName,
-      school,
+    faculty,
     email,
     gender,
     birthDay,
@@ -94,7 +87,7 @@ export const create = async (args = {}) => {
   try {
     const newData = new Student({
       fullName,
-      school,
+      faculty,
       email,
       gender,
       birthDay,
@@ -117,7 +110,7 @@ export const update = async (args = {}) => {
 
   const listFiled = [
     'fullName',
-    'school',
+    'faculty',
     'email',
     'gender',
     'birthDay',
@@ -147,7 +140,7 @@ export const update = async (args = {}) => {
 export const getById = async (args = {}) => {
     const { studentId } = args;
     try {
-      const result = await Student.findOne({ _id: studentId }).populate(['school']);
+      const result = await Student.findOne({ _id: studentId }).populate(['faculty']);
       return result;
     } catch (e) {
       throw new Error(e.message);

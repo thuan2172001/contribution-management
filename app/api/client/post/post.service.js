@@ -13,7 +13,6 @@ const CODE_NOT_FOUND = 'POST.ERROR.CODE_NOT_FOUND';
 export const getAll = async (args = {}) => {
   const defaultSortField = 'updatedAt';
   const searchModel = {
-    faculty: { _id: 'objectId' },
     category: { _id: 'objectId' },
     title: 'string',
     student: {_id: 'objectId'},
@@ -23,9 +22,12 @@ export const getAll = async (args = {}) => {
   };
 
   const poppulateObj = {
-    faculty: { __from: 'faculties' },
     category: {__from: 'categories'},
-    student: {__from: 'students'},
+    student: {
+      __from: 'students',
+      faculty: {__from: 'faculties'},
+    },
+
   };
   const validSearchOption = getSearchOption(args, searchModel);
   mergeSearchObjToPopulate(validSearchOption, poppulateObj, searchModel, args);
@@ -52,7 +54,6 @@ export const getAll = async (args = {}) => {
 export const create = async (args = {}) => {
   const validateArgs = async (arg = {}) => {
     const {
-      faculty,
       title,
       name,
       date_upload,
@@ -70,9 +71,8 @@ export const create = async (args = {}) => {
   };
 
   const {
-    faculty,
     title,
-      student,
+    student,
     name,
     date_upload,
     code,
@@ -92,7 +92,6 @@ export const create = async (args = {}) => {
 
   try {
     const newData = new Post({
-      faculty,
       title,
       student,
       name,
@@ -116,7 +115,6 @@ export const update = async (args = {}) => {
 
 
   const listFiled = [
-    'faculty',
     'title',
       'student',
     'name',
@@ -150,7 +148,7 @@ export const getById = async (args = {}) => {
     const { postId } = args;
     try {
       const result = await Post.findOne({ _id: postId })
-          .populate(['faculty','category','student']);
+          .populate(['category','student']);
       return result;
     } catch (e) {
       throw new Error(e.message);

@@ -1,10 +1,8 @@
 import faker from 'faker';
 import User from '../models/user';
-import Role from '../models/role';
-import Agency from '../models/agency';
 import { getCSVFiles, getContentCSVFiles, cleanField } from './scanDataFile';
 import { findAgency, findManagementUnit, findRole } from './findData';
-import ProductPlanHarvesting from '../models/product_plan_harvesting';
+import Student from '../models/student';
 
 const Promise = require('bluebird');
 
@@ -33,6 +31,13 @@ export const createDefaultUser = async () => {
 
     const agencyFile = await getCSVFiles('agencies');
 
+    const studentFile = await getCSVFiles('student');
+
+    const {
+      header: headerStudent,
+      content: contentStudent,
+    } = await getContentCSVFiles(studentFile[0]);
+
     const {
       header: headerAgency,
       content: contentAgency,
@@ -40,6 +45,7 @@ export const createDefaultUser = async () => {
 
     await Promise.each(content, async (line) => {
       const field = cleanField(line.split(','));
+      const studentId = field[header.indexOf('student')];
 
       const managementUnitId = field[header.indexOf('managementUnit')];
       const roleId = field[header.indexOf('role')];
@@ -51,6 +57,8 @@ export const createDefaultUser = async () => {
 
       const agency = await findAgency(agencyId, contentAgency, headerAgency);
 
+      const student = await Student.findOne({ code: studentId });
+
       const role = await findRole(roleId, contentRole, headerRole);
 
       const userObj = {
@@ -58,6 +66,7 @@ export const createDefaultUser = async () => {
         firstName: field[header.indexOf('firstName')],
         lastName: field[header.indexOf('lastName')],
         fullName: `${field[header.indexOf('lastName')]} ${field[header.indexOf('firstName')]}`,
+        student,
         address: {
           address: field[header.indexOf('address')],
           city: field[header.indexOf('city')],
@@ -80,6 +89,7 @@ export const createDefaultUser = async () => {
           firstName: field[header.indexOf('firstName')],
           lastName: field[header.indexOf('lastName')],
           fullName: `${field[header.indexOf('lastName')]} ${field[header.indexOf('firstName')]}`,
+          student,
           address: {
             address: field[header.indexOf('address')],
             city: field[header.indexOf('city')],
@@ -146,6 +156,49 @@ export const createAgencyForUser = async () => {
     });
 
     console.log('Seed Agency for User Success');
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
+export const createStudentForUser = async () => {
+  try {
+    const userFile = await getCSVFiles('users');
+
+    const { header, content } = await getContentCSVFiles(userFile[0]);
+
+    const studentFile = await getCSVFiles('student');
+
+    const {
+      header: headerStudent,
+      content: contentStudent,
+    } = await getContentCSVFiles(studentFile[0]);
+
+    await Promise.each(content, async (line) => {
+      const field = cleanField(line.split(','));
+
+      const studentId = field[header.indexOf('student')];
+
+      if (studentId !== '') {
+        const student = await findAgency(studentId, contentStudent, headerStudent);
+
+        const userObj = {
+          username: field[header.indexOf('username')],
+        };
+        const userExits = await User.findOne(userObj);
+
+        if (userExits && !userExits.student && student[0]) {
+          await User
+            .updateOne({ _id: userExits._id }, {
+              $set: {
+                student: student[0]._id,
+              },
+            });
+        }
+      }
+    });
+
+    console.log('Seed Student for User Success');
   } catch (err) {
     throw new Error(err.message);
   }

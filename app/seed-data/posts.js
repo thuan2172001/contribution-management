@@ -1,6 +1,5 @@
 import { getCSVFiles, getContentCSVFiles, cleanField } from './scanDataFile';
 import Post from '../models/post';
-import Faculty from '../models/faculty';
 import Category from '../models/category';
 import Student from '../models/student';
 
@@ -18,8 +17,6 @@ export const generatePost = async () => {
 
     await Promise.each(content, async (line) => {
       const fields = cleanField(line.split(','));
-      const facultyCode = fields[header.indexOf('faculty')];
-      const faculty = await Faculty.findOne({ code: facultyCode });
       const categoryCode = fields[header.indexOf('category')];
       const category = await Category.findOne({ code: categoryCode });
       const studentCode = fields[header.indexOf('student')];
@@ -31,7 +28,6 @@ export const generatePost = async () => {
 
       if (!checkDataExits) {
         const _data = {
-          faculty,
           title: fields[header.indexOf('title')],
           student,
           date_upload: fields[header.indexOf('date_upload')],

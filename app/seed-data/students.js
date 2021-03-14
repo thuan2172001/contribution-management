@@ -1,6 +1,6 @@
 import { getCSVFiles, getContentCSVFiles, cleanField } from './scanDataFile';
+import Faculty from '../models/faculty';
 import Student from '../models/student';
-import School from '../models/school';
 
 const Promise = require('bluebird');
 
@@ -16,9 +16,9 @@ export const generateStudent = async () => {
 
     await Promise.each(content, async (line) => {
       const fields = cleanField(line.split(','));
-      const schoolCode = fields[header.indexOf('school')];
-      const school = await School.findOne({ code: schoolCode });
-      console.log(school);
+      const facultyCode = fields[header.indexOf('faculty')];
+      const faculty = await Faculty.findOne({ code: facultyCode });
+      console.log(faculty);
       const checkDataExits = await DataSchema.findOne({
         code: fields[header.indexOf('code')],
       });
@@ -30,7 +30,7 @@ export const generateStudent = async () => {
           gender: fields[header.indexOf('gender')],
           birthDay: fields[header.indexOf('birthday')],
           code: fields[header.indexOf('code')],
-          school,
+          faculty,
           image: fields[header.indexOf('image')],
         };
         const data = new DataSchema(_data);

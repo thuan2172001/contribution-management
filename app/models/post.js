@@ -14,11 +14,6 @@ const PostSchema = new Schema(
       ref: 'Student',
       required: true,
     },
-    faculty: {
-      type: Schema.Types.ObjectId,
-      ref: 'Faculty',
-      required: true,
-    },
     title: {
       type: String,
       required: true,

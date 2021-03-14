@@ -3,10 +3,12 @@ import ValidateAddress from '../../library/validateAddress';
 import RoleAction from '../role/role.service';
 import Role from '../../../models/role';
 import Agency from '../../../models/agency'
+import Student from '../../../models/student'
 import ManagementUnit from '../../../models/management_unit';
 import { getSearchOption, mergeSearchObjToPopulate, poppulate } from '../../library/new-search';
 import { removeElementInArray } from '../../../utils/removeElementInArray-ultils.js';
 import {saveImageAndGetHash, saveImageAndGetHashList} from '../../../utils/image-utils';
+
 
 const Promise = require('bluebird');
 const _ = require('lodash');
@@ -81,6 +83,7 @@ const getById = async (args = {}) => {
     populate([
       { path: 'agency' },
       { path: 'managementUnit' },
+      { path: 'student' },
       { path: 'role' },
     ]).lean();
 
@@ -107,6 +110,7 @@ const update = async (args = {}) => {
       fullName,
       address,
       agency,
+        student,
       gender,
       role,
       managementUnit,
@@ -123,6 +127,7 @@ const update = async (args = {}) => {
     if (fullName && (typeof fullName !== 'string' || (fullName.length === 0 || fullName.length > 254))) throw new Error('UPDATE.ERROR.USER.FULL_NAME_INVALID');
 
     if (agency && (_.isEmpty(agency) || !agency._id)) throw new Error('UPDATE.ERROR.USER.AGENCY_INVALID');
+    if (student && (_.isEmpty(student) || !student._id)) throw new Error('UPDATE.ERROR.USER.STUDENT_INVALID');
 
     if (agency) {
       if (!agency._id) {
@@ -132,6 +137,16 @@ const update = async (args = {}) => {
         _id: agency._id
       })
       if (!checkWorkLocation) throw new Error('CREATE.ERROR.USER.AGENCY_NOT_FOUND');
+    }
+
+    if (student) {
+      if (!student._id) {
+        throw new Error('CREATE.ERROR.USER.STUDENT');
+      }
+      const checkWorkLocation = await Student.findOne({
+        _id: student._id
+      })
+      if (!checkWorkLocation) throw new Error('CREATE.ERROR.USER.STUDENT_NOT_FOUND');
     }
 
     if (gender && (typeof gender !== 'string' || (gender !== '0' && gender !== '1'))) throw new Error('CREATE.ERROR.USER.GENDER_INVALID');
@@ -230,6 +245,7 @@ const update = async (args = {}) => {
     'address',
     'role',
     'agency',
+    'student',
     'gender',
     'managementUnit',
   ];
@@ -281,6 +297,7 @@ const getAll = async (args = {}) => {
     managementUnit: { _id: 'objectId' },
     role: { _id: 'objectId', name: 'string', code: 'string' },
     agency: { _id: 'objectId' },
+    student: { _id: 'objectId' },
     phone: 'string',
     email: 'string',
     fullName: 'string',
@@ -291,6 +308,7 @@ const getAll = async (args = {}) => {
     managementUnit: { __from: 'managementunits' },
     role: { __from: 'roles' },
     agency: { __from: 'agencies' },
+    student: { __from: 'students' },
   };
   const validSearchOption = getSearchOption(args, searchModel);
   mergeSearchObjToPopulate(validSearchOption, poppulateObj, searchModel, args);
@@ -323,6 +341,7 @@ const create = async (args = {}) => {
       email,
       birthDay,
       agency,
+      student,
       gender,
       role,
       managementUnit,
@@ -350,7 +369,14 @@ const create = async (args = {}) => {
     const checkWorkLocation = await Agency.findOne({
       _id: agency._id
     })
+    if (!student || _.isEmpty(student) || !student._id) throw new Error('CREATE.ERROR.USER.STUDENT_INVALID');
+    const checkStudentLocation = await Student.findOne({
+      _id: student._id
+    })
+
     if (!checkWorkLocation) throw new Error('CREATE.ERROR.USER.AGENCY_NOT_FOUND');
+    if (!checkStudentLocation) throw new Error('CREATE.ERROR.USER.AGENCY_NOT_FOUND');
+
 
     // Check Phone of user
     if (typeof phone !== 'string' || (phone.length === 0 || phone.length > 13)) throw new Error('CREATE.ERROR.USER.PHONE_INVALID');
